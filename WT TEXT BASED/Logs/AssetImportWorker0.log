@@ -2047,3 +2047,12 @@ Start importing Assets/Scripts/PlayerScript.cs using Guid(2417a6aaf3366054fb9c0d
  -> (artifact id: 'eb04bbf6518f14e46f2642872b22dc50') in 0.001893 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 89.496764 seconds.
+  path: Assets/Scenes/ACTUALGAME/Gameplay Test.scenetemplate
+  artifactKey: Guid(035e14b167d9537479f2ac72f3a04c91) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/ACTUALGAME/Gameplay Test.scenetemplate using Guid(035e14b167d9537479f2ac72f3a04c91) Importer(815301076,1909f56bfc062723c751e8b465ee728b) [PhysX] Initialized MultithreadedTaskDispatcher with 20 workers.
+ -> (artifact id: 'd9be8dbd2a580cd037ee8969e23b035d') in 0.054517 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
