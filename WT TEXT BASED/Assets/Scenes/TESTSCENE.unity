@@ -2082,9 +2082,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eebb2a12cefdba498ebad9b234f9234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Barbarian
-  damage: 80
   health: 100
+  attack: 5
+  defence: 3
+  mDef: 2
+  mAttack: 3
+  agility: 5
+  luck: 2
+  isDead: 0
   diceManager: {fileID: 2119556357}
   acceptableDiceSides: 0c000000
 --- !u!4 &1376465880
