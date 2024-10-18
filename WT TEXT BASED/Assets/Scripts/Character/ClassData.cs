@@ -10,7 +10,8 @@ namespace PlayerValues
 {
     public class ClassData : MonoBehaviour
     {
-        public int health, attack, defence, mDef, mAttack, agility, luck;
+        public int health, attack, defence, mDef, mAttack, agility, luck, skillPoints;
+        public string playerName;
         public float critChance = 2.5f;
         public string selectedClass; 
         public bool isDead = false;
