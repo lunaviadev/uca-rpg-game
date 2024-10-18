@@ -6,7 +6,7 @@ using Classes;
 using EnemyValues;
 using Unity.VisualScripting;
 
-namespace Player
+namespace PlayerValues
 {
     public class ClassData : MonoBehaviour
     {
@@ -15,6 +15,7 @@ namespace Player
         public string selectedClass; 
         public bool isDead = false;
         public DiceManager diceManager;
+        public Enemy enemy;
         public ClassManager classes; 
         public List<int> cardList;
         public List<int> acceptableDice;
@@ -74,7 +75,7 @@ namespace Player
 
         public void takeDamage(int EnemyAttack)
         {
-            int incomingDamage = EnemyAttack * 2 - defence;
+            int incomingDamage = enemy.EnemyAttack * 2 - defence;
             health = health - incomingDamage;
         }
 

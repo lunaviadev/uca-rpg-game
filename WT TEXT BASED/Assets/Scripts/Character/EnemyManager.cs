@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EnemyValues;
+using Dice;
 
 namespace EnemyTyping
 {
@@ -28,5 +29,8 @@ namespace EnemyTyping
         {
 
         }
+
+   
+        
     }
 }
