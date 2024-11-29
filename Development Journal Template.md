@@ -119,7 +119,132 @@ I started with adding the three new die, each of which having their own debug lo
 }
 ```
 
-## IMPLEMENTING CLASSES
-A core part of Dungeons and Dragons gameplay is the various [classes](https://www.dndbeyond.com/sources/dnd/basic-rules-2014/classes) you can choose from that each have their own unique aspects to them. One of the bigger aspects relating to functionality is that fact that different classes have access to different die, so as an extension of these die I create a class system that is decided from the start of the game, which then checks for the die that are avaliable to each specific class.
+## IMPLEMENTING MORE MECHANICS
 
-The four classes I selected to implement as part of the program was the Barbarian, Druid, Ranger and Paladin. The Barbarian uses a D12, the Druid uses a D8, the Ranger uses D10 and the Paladin uses D10. 
+### Card System:
+```markdown
+To add a bit more depth to the combat and give it more of a gameplay loop and that endless killer style gameplay, I wanted to intergrate a card system that determines your attacks, with the start of each turn dealing the player 3 cards that they can use to attack the opposite enemies.
+
+This process will then continue to repeat until the player dies and or reaches a high score based on their wave round.
+```
+
+```csharp
+namespace CardsList
+{
+
+    public class Cards : MonoBehaviour
+    {
+        public int skillPointsRequired;
+        public int skillPointsCheck;
+        public ClassData player;
+        public Enemy enemy;
+
+        public bool checkSkillPoints()
+        {
+            if (player.skillPoints >= skillPointsRequired)
+            {
+                return true;
+            }
+            else return false;
+
+        }
+        public bool BasicAttackCard()
+        {
+            skillPointsRequired = 1;
+            if (checkSkillPoints())
+            {
+                player.skillPoints = player.skillPoints - 1;
+                Debug.Log("Successful Basic Attack");
+                return true;
+            }
+            else Debug.Log("Invalid Input"); return false;
+        }
+
+        public bool HeavyAttackCard()
+        {
+            skillPointsRequired = 2;
+            if (checkSkillPoints())
+            {
+                player.skillPoints = player.skillPoints - 2;
+                Debug.Log("Successful Heavy Attack");
+                return true;
+            }
+            else Debug.Log("Invalid Input"); return false;
+        }
+
+        public bool DefendCard()
+        {
+            skillPointsRequired = 0;
+            if (checkSkillPoints())
+            {
+                Debug.Log("Successful Defend");
+                return true;
+            }
+            else Debug.Log("Invalid Input"); return false;
+        }
+
+        public void BasicAttack()
+        {
+            BasicAttackCard();
+            Debug.Log(player.playerName);
+            if (enemy != null)
+            {
+                Debug.Log(enemy.EnemyName);
+                enemy.takeDamage(enemy.EnemyDefence);
+            }
+            else
+            {
+                Debug.Log("Enemy is null!");
+                enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
+                enemy.takeDamage(enemy.EnemyDefence);
+            }
+        }
+
+        public void HeavyAttack()
+        {
+            HeavyAttackCard();
+            player.doDamage(player.attack);
+        }
+
+        public void Defend()
+        {
+            DefendCard();
+        }
+    }
+```
+*Figure 4. Program code for the various different attacks and their associated skill costs*
+
+```markdown
+Through implementing the card system, I effecitvely add a more in depth strategy system to the basic gameplay loop that allows for more replayability whilst adding some challenge and allowing the game to feel effective at capturing the core idea. 
+```
+
+### Turn System
+
+```markdown
+For a last feature to implement to get the game working I add on a turn system that allows the player's cards to be given to them at the beginning of the turn whilst also allocating them a singular skill point
+```
+
+```csharp
+
+```
+*Figure 5. Program code for the turn system and its functionality and the way in which it works.*
+
+## Outcome
+
+```markdown
+Here are a variety of links that lead to the game's gameplay being demonstrated, alongside a link to view the github repository online and download the current build of the game for yourself through Itch.io
+```
+
+- [Gameplay in action](https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley)
+- [Github repository link](https://github.com/githubtraining/hellogitworld)
+- [Game demo on Itch.io](https://samperson.itch.io/desktop-goose)
+
+## Critical Reflection
+
+### What did or did not work well?
+
+```markdown
+Upon completion I feel that the endless style nature of the game and the turn based system allows for a lot of replayability as it creates an almost arcaic style of gameplay that allows the user to keep playing.
+
+I feel that the execution of the skill point system then adds a lot to the game and provides good strategy however could be expanded upon to allow for  
+```
