@@ -8,6 +8,7 @@ using PlayerValues;
 using CardShuffle;
 using UnityEngine.UI;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 namespace EnemyValues
 
@@ -65,8 +66,8 @@ namespace EnemyValues
             }
 
             if (isDead == true)
-            { 
-                 
+            {
+                SceneManager.LoadScene("Game Over");
             }
 
         }

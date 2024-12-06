@@ -786,7 +786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerSlider: {fileID: 959586424}
   player: {fileID: 1034273855}
-  PlayerNumberHealth: {fileID: 0}
+  PlayerNumberHealth: {fileID: 1034273854}
 --- !u!1 &975227353
 GameObject:
   m_ObjectHideFlags: 0

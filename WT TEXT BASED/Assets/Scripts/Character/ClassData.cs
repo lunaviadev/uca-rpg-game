@@ -6,6 +6,7 @@ using Classes;
 using EnemyValues;
 using Unity.VisualScripting;
 using CardShuffle;
+using UnityEngine.SceneManagement;
 
 namespace PlayerValues
 {
@@ -56,7 +57,15 @@ namespace PlayerValues
 
         public void Update()
         {
+            if (health == 0)
+            {
+          
+             SceneManager.LoadScene("Game Over");
+               
+            }
         }
+
+        
 
     }
 
