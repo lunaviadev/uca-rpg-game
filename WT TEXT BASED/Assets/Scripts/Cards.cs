@@ -4,6 +4,7 @@ using UnityEngine;
 using CardsManagement;
 using PlayerValues;
 using EnemyValues;
+using CardShuffle;
 
 namespace CardsList
 {
@@ -14,6 +15,17 @@ namespace CardsList
         public int skillPointsCheck;
         public ClassData player;
         public Enemy enemy;
+
+        private TurnScript TurnScript;
+        private ShuffleHand HandScript;
+
+        private void Awake()
+        {
+            TurnScript = GameObject.FindGameObjectWithTag("Manager").GetComponent<TurnScript>();
+            player = TurnScript.Player;
+            enemy = TurnScript.Enemy;
+            HandScript = GameObject.FindGameObjectWithTag("Player").GetComponent<ShuffleHand>();
+        }
 
         public bool checkSkillPoints()
         {
@@ -48,6 +60,27 @@ namespace CardsList
             else Debug.Log("Invalid Input"); return false;
         }
 
+        public bool HealCard()
+        {
+            skillPointsRequired = 1;
+            if (checkSkillPoints())
+            {
+                player.skillPoints = player.skillPoints - 1;
+                return true;
+            }
+            else return false;
+        }
+
+        public bool HeavyHealCard()
+        {
+            skillPointsRequired = 2;
+            if (checkSkillPoints())
+            {
+                player.skillPoints = player.skillPoints - 2;
+                return true;
+            }
+            else return false;
+        }
         public bool DefendCard()
         {
             skillPointsRequired = 0;
@@ -67,24 +100,57 @@ namespace CardsList
             {
                 Debug.Log(enemy.EnemyName);
                 enemy.takeDamage(enemy.EnemyDefence);
+                TurnScript.PlayerGone = true;
+                TurnScript.Combat();
+                HandScript.DestroyHand();
             }
             else
             {
                 Debug.Log("Enemy is null!");
                 enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
                 enemy.takeDamage(enemy.EnemyDefence);
+                HandScript.DestroyHand();
             }
+
         }
 
         public void HeavyAttack()
         {
             HeavyAttackCard();
-            player.doDamage(player.attack);
+            Debug.Log(player.playerName);
+            if (enemy != null)
+            {
+                Debug.Log(enemy.EnemyName);
+                enemy.takeDamage(enemy.EnemyDefence);
+                HandScript.DestroyHand();
+            }
+            else
+            {
+                Debug.Log("Enemy is null!");
+                enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
+                enemy.takeDamage(enemy.EnemyDefence);
+                HandScript.DestroyHand();
+            }
+        }
+
+        public void Heal()
+        {
+            HealCard();
+            player.health += Random.Range(15, 60);
+            HandScript.DestroyHand();
+        }
+
+        public void HeavyHeal()
+        {
+            HeavyHealCard();
+            player.health += Random.Range(30, 90);
+            HandScript.DestroyHand();
         }
 
         public void Defend()
         {
             DefendCard();
+            HandScript.DestroyHand();
         }
     }
 

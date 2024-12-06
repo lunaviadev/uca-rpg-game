@@ -5,12 +5,13 @@ using Dice;
 using Classes;
 using EnemyValues;
 using Unity.VisualScripting;
+using CardShuffle;
 
 namespace PlayerValues
 {
     public class ClassData : MonoBehaviour
     {
-        public int health, attack, defence, mDef, mAttack, agility, luck, skillPoints;
+        public int health = 100, attack, defence, mDef , mAttack, agility , luck, skillPoints;
         public string playerName;
         public float critChance = 2.5f;
         public string selectedClass; 
@@ -20,64 +21,32 @@ namespace PlayerValues
         public ClassManager classes; 
         public List<int> cardList;
         public List<int> acceptableDice;
+        [SerializeField]private TurnScript TurnScript;
+        private ShuffleHand HandScript;
 
-        public void Start()
+
+        private void Start()
         {
-            if (selectedClass == "Archer")
-            {
-                attack += 3;
-                defence += 2;
-                mDef += 1;
-                mAttack += 2;
-                agility += 5;
-                luck += 2;
-            }
-
-            else if (selectedClass == "Paladin")
-            {
-                attack += 5;
-                defence += 4;
-                mDef += 2;
-                mAttack -= 1;
-                agility -= 1;
-                luck += 1;
-            }
-
-            else if (selectedClass == "Knight")
-            {
-                attack += 2;
-                defence += 2;
-                mDef += 2;
-                mAttack += 1;
-                agility += 2;
-                luck += 2;
-            }
-
-            else if (selectedClass == "Thief")
-            {
-                attack += 3;
-                defence -= 1;
-                mDef -= 1;
-                mAttack += 3;
-                agility += 5;
-                luck += 4;
-            }
-
-            else if (selectedClass == "Vagrant")
-            {
-                attack -= 1;
-                defence -= 1;
-                mDef -= 1;
-                mAttack -= 1;
-                agility -= 1;
-                luck -= 1;
-            }
+            TurnScript = GameObject.FindGameObjectWithTag("Manager").GetComponent<TurnScript>();
+            attack = Random.Range(1, 10);
+            defence = Random.Range(1, 10);
+            mDef = Random.Range(1, 10);
+            mAttack = Random.Range(1, 10);
+            agility = Random.Range(1, 10);
+            luck = Random.Range(1, 10);
+            agility = Random.Range(1, 9);
+            HandScript = GameObject.FindGameObjectWithTag("Player").GetComponent<ShuffleHand>();
         }
 
         public void takeDamage(int EnemyAttack)
         {
-            int incomingDamage = enemy.EnemyAttack * 2 - defence;
+            Debug.Log("TAken Damage");
+            int incomingDamage = EnemyAttack * 2 - defence;
             health = health - incomingDamage;
+            TurnScript.PlayerGone = false;
+            TurnScript.Combat();
+            HandScript.DestroyHand();
+
         }
 
         public void doDamage(int attack)
@@ -87,7 +56,6 @@ namespace PlayerValues
 
         public void Update()
         {
-           
         }
 
     }

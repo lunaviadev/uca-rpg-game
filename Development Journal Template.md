@@ -229,6 +229,18 @@ For a last feature to implement to get the game working I add on a turn system t
 ```
 *Figure 5. Program code for the turn system and its functionality and the way in which it works.*
 
+### Card Allocation
+```csharp
+
+```
+*Figure 6. Program code for the card allocation system*
+
+### Enemy Spawner
+```csharp
+
+```
+*Figure 7. program code for the enemy respawner*
+
 ## Outcome
 
 ```markdown
@@ -246,5 +258,5 @@ Here are a variety of links that lead to the game's gameplay being demonstrated,
 ```markdown
 Upon completion I feel that the endless style nature of the game and the turn based system allows for a lot of replayability as it creates an almost arcaic style of gameplay that allows the user to keep playing.
 
-I feel that the execution of the skill point system then adds a lot to the game and provides good strategy however could be expanded upon to allow for  
+I feel that the execution of the skill point system then adds a lot to the game and provides good strategy however could be expanded upon to allow for more flexibility and planning as opposed to the system being very linear and only adding one skill point per turn, possibly adding a skill point for each enemy defeated to allow for a bit more of a risk reward system with the way you spend your skill points.
 ```
