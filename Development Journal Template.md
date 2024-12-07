@@ -6,7 +6,7 @@ Joshua Bellas
 
 2326296
 
-## FUNDAMENTAL FUNCTIONS
+## FUNDAMENTAL FUNCTIONS // DICE ROLLING
 
 Using the [Unity Scripting API](https://docs.unity3d.com/ScriptReference/Random.Range.html) I first researched into the basic process of generating and storing values in the log itself. The code displays how the scrpit for 'Dice' rolls all three die upon the start of the process, calling each function repspectively that generates a random number in a set range.
 
@@ -74,7 +74,7 @@ Evidenced by this it was clear that it was fixed:
 ![alt text](PICTURES/TEST2.png)
 Figure 3. Debug log showing the change is in affect.
 
-## FURTHER FUNCTIONALITY
+## FURTHER FUNCTIONALITY // CRITICAL HITS AND ADDITONAL FEATURES
 
 Given that the die already being used were three die commonly used in the Dungeons and Dragons game, I decided to implement a few more die in order to create a rolling system similar to one found within Dungeons and Dragons.
 
@@ -119,7 +119,7 @@ I started with adding the three new die, each of which having their own debug lo
 }
 ```
 
-## IMPLEMENTING MORE MECHANICS
+## IMPLEMENTING MORE MECHANICS // CORE GAMEPLAY LOOP
 
 ### Card System:
 ```markdown
@@ -221,25 +221,102 @@ Through implementing the card system, I effecitvely add a more in depth strategy
 ### Turn System
 
 ```markdown
-For a last feature to implement to get the game working I add on a turn system that allows the player's cards to be given to them at the beginning of the turn whilst also allocating them a singular skill point
+For a last feature to implement to get the game working I add on a turn system that allows the player's cards to be given to them at the beginning of the turn and is randomly shuffled between the avaliable cards that they have on hand. This is done by using a bool that switches between true and false to indicate when the enemy is taking their turn or when the player is taking their turn.
 ```
 
 ```csharp
+public class TurnScript : MonoBehaviour
+{
+    public ClassData Player;
+    public Enemy Enemy;
+    public ShuffleHand Cards;
+    private bool playerFirst;
+    public bool PlayerGone;
+    public bool RegisterBattle()
+    {
+        if (Player.isDead == true) return false;
 
+        bool isPlayerFirst = Player.agility >= Enemy.agility ? true : false;
+        return isPlayerFirst;
+
+    }
+
+    public void StartCombat()
+    {
+        playerFirst = RegisterBattle();
+
+        PlayerGone = playerFirst;
+        Combat();
+    }
+
+    public void Combat()
+    {
+        if (PlayerGone == true)
+        {
+            Player.health -= Random.Range(1, 50);
+            PlayerGone = false;
+            Combat();
+            Debug.Log("NOT NEW TURN");
+        }
+        else
+        {
+            Cards.StartTurn();
+            Debug.Log("NEW TURN");
+        }
+    }
+
+    private void Start()
+    {
+        StartCombat();
+    }
 ```
 *Figure 5. Program code for the turn system and its functionality and the way in which it works.*
 
+```markdown
+The card allocation works by creating temporary card objects by using prefabs I had created and then instantiate and move to the middle of the screen to allow for the player to select a card before it destroying the rest of the cards, letting the enemy attack then repeat.
+```
 ### Card Allocation
 ```csharp
+public class ShuffleHand : MonoBehaviour
+    {
+        [SerializeField] private GameObject[] CardTypes;
+        [SerializeField] private RectTransform[] CardTransform;
+        private GameObject[] TempCards = new GameObject[3];
+        private TurnScript TurnScript;
 
+        private void Start()
+        {
+            TurnScript = GameObject.FindGameObjectWithTag("Manager").GetComponent<TurnScript>();
+        }
+        public void StartTurn()
+        {
+            TempCards = new GameObject[3];
+            int i = 0;
+            foreach (RectTransform r in CardTransform)
+            {
+                TempCards[i] = Instantiate(CardTypes[Random.Range(1, 5)]);
+                TempCards[i].transform.position = CardTransform[i].position;
+                TempCards[i].transform.parent = CardTransform[i].transform;
+                i++;
+            }
+        }
+
+        public void DestroyHand()
+        {
+            int i = 0;
+            foreach (GameObject g in TempCards)
+            {
+                Destroy(TempCards[i]);
+                i++;
+            }
+            TurnScript.PlayerGone = true;
+            TurnScript.Combat();
+        }
+
+    }
 ```
 *Figure 6. Program code for the card allocation system*
 
-### Enemy Spawner
-```csharp
-
-```
-*Figure 7. program code for the enemy respawner*
 
 ## Outcome
 
@@ -247,9 +324,9 @@ For a last feature to implement to get the game working I add on a turn system t
 Here are a variety of links that lead to the game's gameplay being demonstrated, alongside a link to view the github repository online and download the current build of the game for yourself through Itch.io
 ```
 
-- [Gameplay in action](https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley)
-- [Github repository link](https://github.com/githubtraining/hellogitworld)
-- [Game demo on Itch.io](https://samperson.itch.io/desktop-goose)
+- [Gameplay in action](https://youtu.be/-IxDlAvto7Y)
+- [Github repository link](https://github.com/lunaviadev/uca-rpg-game)
+- [Game demo on Itch.io](https://lunavia.itch.io/rpg-tech-demo)
 
 ## Critical Reflection
 
@@ -258,5 +335,5 @@ Here are a variety of links that lead to the game's gameplay being demonstrated,
 ```markdown
 Upon completion I feel that the endless style nature of the game and the turn based system allows for a lot of replayability as it creates an almost arcaic style of gameplay that allows the user to keep playing.
 
-I feel that the execution of the skill point system then adds a lot to the game and provides good strategy however could be expanded upon to allow for more flexibility and planning as opposed to the system being very linear and only adding one skill point per turn, possibly adding a skill point for each enemy defeated to allow for a bit more of a risk reward system with the way you spend your skill points.
+I feel that the card system also has a lot of potential to shine if expanded upon more, I feel like its current iteration is a bit lacking with the amount of variety and the real lack of RPG esq mechanics, though that is very easily fixable if I were to add a couple more features to it and maybe flesh out the battle system a bit more to include more cards and possibly even let enemies use cards.
 ```
